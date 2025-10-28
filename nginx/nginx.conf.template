@@ -1,0 +1,21 @@
+upstream app_upstream {
+    server app_blue:3000 max_fails=1 fail_timeout=2s;
+    server app_green:3000 backup;
+}
+
+server {
+    listen 8080;
+
+    location / {
+        proxy_pass http://app_upstream;
+        proxy_next_upstream error timeout http_500;
+        proxy_next_upstream_tries 2;
+        proxy_connect_timeout 2s;
+        proxy_read_timeout 5s;
+        proxy_send_timeout 5s;
+
+        # Forward headers
+        proxy_set_header X-App-Pool $upstream_http_x_app_pool;
+        proxy_set_header X-Release-Id $upstream_http_x_release_id;
+    }
+}
