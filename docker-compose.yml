@@ -1,24 +1,14 @@
-version: "3.9"
-
 services:
   app_blue:
-    image: ${BLUE_IMAGE}
+    image: yimikaade/wonderful:devops-stage-two
     container_name: stage-two-devops-app_blue
-    environment:
-      - PORT=3000
-      - APP_POOL=blue
-      - RELEASE_ID=${RELEASE_ID_BLUE}
     ports:
       - "8081:3000"
     restart: unless-stopped
 
   app_green:
-    image: ${GREEN_IMAGE}
+    image: yimikaade/wonderful:devops-stage-two
     container_name: stage-two-devops-app_green
-    environment:
-      - PORT=3000
-      - APP_POOL=green
-      - RELEASE_ID=${RELEASE_ID_GREEN}
     ports:
       - "8082:3000"
     restart: unless-stopped
